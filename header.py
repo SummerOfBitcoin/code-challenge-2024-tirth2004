@@ -16,7 +16,8 @@ def make_header():
     unix_time = int(time.time())
     timestamp_hex = struct.pack('<I', unix_time).hex()
     header+=timestamp_hex
-    header+="1f00ffff"
+    
+    header+="FFFF001F"
     return header
 
 def make_hash():
@@ -37,6 +38,8 @@ def make_hash():
                 return (header+format(nonce, '08x'))
             
             nonce+=1
+
+# print("Header incomplete", make_header())
             
             
 
