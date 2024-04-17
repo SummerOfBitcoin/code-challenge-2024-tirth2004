@@ -26,11 +26,13 @@ def make_hash():
         while(True):
             
             hash_result = hashlib.sha256(hashlib.sha256(bytes.fromhex(header+format(nonce, '08x'))).digest()).digest()
+            hash_result = hash_result[::-1]
 
             if(hash_result.hex()<DIFFICULTY_TARGET):
                 print("Nonce used: ", format(nonce, '08x'))
                 print("Header hash: ", hash_result.hex())
                 print("Header: ", header+format(nonce, '08x'))
+                print("Header in bytes: ", bytes.fromhex(header+format(nonce, '08x')))
                 print("Header length: ",len((header+format(nonce, '08x')) ))
                 return (header+format(nonce, '08x'))
             

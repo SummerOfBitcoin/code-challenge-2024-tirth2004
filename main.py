@@ -2,6 +2,7 @@ import os
 import json
 from p2pkh import verify_signature
 from serialise import serialize_transaction
+import hashlib
 DIFFICULTY_TARGET = "0000ffff00000000000000000000000000000000000000000000000000000000"
 
 mempool_folder_path = './mempool'
@@ -74,7 +75,10 @@ def make_block():
                     with open(file_path, "r") as file:
                         json_obj = json.load(file)
                         serialized_tx = serialize_transaction(json_obj)
-                        output_file.write(serialized_tx + "\n")
+                        message_bytes = bytes.fromhex(serialized_tx)
+                        hashed_message = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()
+                        hashed_message = hashed_message[::-1]
+                        output_file.write(hashed_message.hex() + "\n")
                 except Exception as e:
                     print(f"Error occurred while processing file '{filename}': {e}")
 
