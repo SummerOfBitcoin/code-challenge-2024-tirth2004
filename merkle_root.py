@@ -46,7 +46,7 @@ def calc_merkle_root():
             txids_temp.append(hashed_message)
             i=i+2
         txids = txids_temp
-    
+    txids[0] = txids[0][::-1]
     return txids[0]
 
 # print("Merkle root: ",calc_merkle_root().hex() )
