@@ -31,7 +31,9 @@ def calculate_txid_array():
 
 def calc_merkle_root():
     txids = calculate_txid_array()
-        
+    for i in range(len(txids)):
+        txids[i] = txids[i][::-1]
+    
     while(len(txids)!=1):
         
         txids_temp = []
