@@ -8,7 +8,7 @@ mempool_folder_path = './mempool'
 
 def calculate_txid_array():
     txids = []
-    coinbase_hex = "194acdc48eb2eb556b3c788a3fdf4a35c85fd9dec1dcdfc282c25965f443929b"
+    coinbase_hex = "430e399c21f0b3179239315ff172b54b66f883cc2d218eff299d49664e2104b3"
     coinbase_bytes = bytes.fromhex(coinbase_hex)
     txids.append(coinbase_bytes)
     with open("valid_transactions.txt", "r") as valid_transactions_file:
@@ -52,7 +52,7 @@ def calc_merkle_root():
     # txids[0] = txids[0][::-1]
     return txids[0]
 
-# print("Merkle root: ",calc_merkle_root().hex()+"0000000000000000000000000000000000000000000000000000000000000000" )
+print("Merkle root: ",calc_merkle_root().hex()+"0000000000000000000000000000000000000000000000000000000000000000" )
 
 
 
