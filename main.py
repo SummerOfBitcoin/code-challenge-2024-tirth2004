@@ -34,11 +34,11 @@ def get_unique_scriptpubkey_types(directory):
                     try:
                         ans = verify_signature(data)
                         if(ans==True):
-                            if(data["locktime"]==0):
-                                true_p2pkh+=1
-                                valid_transactions_file.write(filename + "\n")
-                            else :
-                                false_p2pkh+=1
+                            
+                            true_p2pkh+=1
+                            unique_types.add(len(data["vin"]))
+                            valid_transactions_file.write(filename + "\n")
+                            
                         else:
                             false_p2pkh+=1          
                     except Exception as e:
@@ -48,18 +48,20 @@ def get_unique_scriptpubkey_types(directory):
 
 
                 # Extract scriptpubkey_type values from vin array
-                for vin_entry in data.get("vin", []):
-                    scriptpubkey_type = vin_entry.get("prevout", {}).get("scriptpubkey_type")
-                    if scriptpubkey_type:
-                        unique_types.add(scriptpubkey_type)
-                    else:
-                        unique_types.add("Empty")
+                # for vin_entry in data.get("vin", []):
+                #     scriptpubkey_type = vin_entry.get("prevout", {}).get("scriptpubkey_type")
+                #     if scriptpubkey_type:
+                #         unique_types.add(scriptpubkey_type)
+                #     else:
+                #         unique_types.add("Empty")
 
     # print("Invalid due to locktime: ", locktimes)
 
     print("Correct: ", true_p2pkh)
     print("False: ", false_p2pkh)
     print("files: ", count)
+    for i in unique_types:
+        print("Lengths: ", i)
     return unique_types
 
 

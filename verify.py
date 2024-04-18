@@ -15,32 +15,17 @@ def verifyECDSAsecp256k1(msg, signature, pubKey):
     valid = verify(generator_secp256k1, pubKey, msgHash, signature)
     return valid
 
-def gcdExtended(a, b):
-    global x, y
  
-    # Base Case
-    if (a == 0):
-        x = 0
-        y = 1
-        return b
- 
-    # To store results of recursive call
-    gcd = gcdExtended(b % a, a)
-    x1 = x
-    y1 = y
- 
-    # Update x and y using results of recursive
-    # call
-    x = y1 - (b // a) * x1
-    y = x1
- 
-    return gcd
- 
- 
-def inverse(A, M):
-    g = gcdExtended(A, M)
-    res = (x % M + M) % M
-    return res
+def inverse(a, m):
+    m_orig = m
+    if(a < 0):
+      a = a%m
+    prevy, y = 0, 1
+    while(a > 1):
+       q = m//a
+       y, prevy = prevy-q*y, y
+       a, m = m%a, a
+    return y%m_orig
 
 def double(point):
   # slope = (3x₁² + a) / 2y₁
@@ -77,11 +62,10 @@ def multiply(k, point):
   current = point
 
   # convert integer to binary representation
-  binary = str(bin(k)[2:])
+  binary = bin(k)[2:]
 
   # double and add algorithm for fast multiplication
-  for i in range(len(binary)):
-    char = binary[i]
+  for char in binary[1:]:
     current = double(current)
 
     # 1 = double and add
@@ -91,42 +75,51 @@ def multiply(k, point):
   # return the final point
   return current
 
-def chootverify(pkt, st, hash):
+def opchecksig(pkt, st, hash):
     point1 = multiply(inverse(st[1], n) * hash, G)
     point2 = multiply((inverse(st[1], n) * st[0]), pkt)
     point3 = add(point1, point2)
 
     return point3[0] == st[0]
 
-msg = "02000000011938f16155220149079a2c812d9af0b9051d3256932f4967a850d77b700b9eaa010000001976a91495e3a864fb90acf50e5b37cb25cb4ae59a71fd7f88acffffffff02c8a90100000000001976a914aa44d6084595a19506ceb0c4115ed8a1a06d831588acad99eb01000000001976a914277e7e47cc38f7c2472f4141c01f358d0341f73188ac0000000001000000"
-signature = "304402204e4feb4dd7ea09c42a4c7eb7db84ded799050fb9baec53cd9e2da94cd80c06bc022048069e40cf73640cb89a21e42558cb2d6d6e120f8c9dff753ee9259ee06b5fbe01"
-pubkey = "0204f090935e1903a7d87e759399280a988b0efeb47d09b159c59855e9a5e51f1a"
+# msg = "020000000125c9f7c56ab4b9c358cb159175de542b41c7d38bf862a045fa5da51979e37ffb010000001976a914286eb663201959fb12eff504329080e4c56ae28788acffffffff0254e80500000000001976a9141ef7874d338d24ecf6577e6eadeeee6cd579c67188acc8910000000000001976a9142e391b6c47778d35586b1f4154cbc6b06dc9840c88ac0000000001000000"
+# signature = "30450221008f619822a97841ffd26eee942d41c1c4704022af2dd42600f006336ce686353a0220659476204210b21d605baab00bef7005ff30e878e911dc99413edb6c1e022acd01"
+# pubkey = "02c371793f2e19d1652408efef67704a2e9953a43a9dd54360d56fc93277a5667d"
+# message_bytes = bytes.fromhex(msg)
+# hash_once = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()
+# hash_int_once = int.from_bytes(hash_once, byteorder="big")
 
-msghash=0x603bc91fdae35b1877e6e51fdfe7db78b66f9339cd2fec2d8b9d94bd07c13598
+# r = ""
+# rl = int(signature[6:8], 16)
+# for i in range(8, 8+rl*2):
+#     r += signature[i]
+# s = ""
+# sl = int(signature[8+rl*2+2 : 8+rl*2+4], 16)
+# for i in range(8+rl*2+4, 8+rl*2+4+sl*2):
+#     s += signature[i]
 
-r = ""
-rl = int(signature[6:8], 16)
-for i in range(8, 8+rl*2):
-    r += signature[i]
-s = ""
-sl = int(signature[8+rl*2+2 : 8+rl*2+4], 16)
-for i in range(8+rl*2+4, 8+rl*2+4+sl*2):
-    s += signature[i]
-
-prefix = pubkey[0:2]
-x = int(pubkey[2:], 16)
-p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
-y_sq = (pow(x, 3, p) + 7) % p
-y = pow(y_sq, (p+1)//4, p)
-if y % 2 != int(prefix) % 2:
-    y = p - y
+# prefix = pubkey[0:2]
+# x = int(pubkey[2:], 16)
+# p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
+# y_sq = (pow(x, 3, p) + 7) % p
+# y = pow(y_sq, (p+1)//4, p)
+# if y % 2 != int(prefix) % 2:
+#     y = p - y
 
 
-ri = int(r, 16)
-si = int(s, 16)
+# ri = int(r, 16)
+# si = int(s, 16)
 
-st = (ri, si)
-pkt = (x, y)
+# print(len("4e9e3109b86c8d6649040dfab9b2a9c9a6cc80bbe867a33c14b75392576daa"))
+# print(len("08c318d3c494e29bd0dcc49aa2b32c32f004115833eacc7d70f8591352ddea2a"))
 
-valid = chootverify(pkt, st, msghash)
-print(valid)
+# print(ri, si)
+
+# st = (ri, si)
+# pkt = (x, y)
+
+# msghashe=103318048148376957923607078689899464500752411597387986125144636642406244063093
+# ste = (108607064596551879580190606910245687803607295064141551927605737287325610911759, 73791001770378044883749956175832052998232581925633570497458784569540878807131)
+# pkte = (33886286099813419182054595252042348742146950914608322024530631065951421850289, 9529752953487881233694078263953407116222499632359298014255097182349749987176)
+# valid = opchecksig(pkt, st, hash_int_once)
+# print(valid)

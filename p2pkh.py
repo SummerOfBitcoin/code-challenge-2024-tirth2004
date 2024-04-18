@@ -9,6 +9,7 @@ from ecdsa import BadSignatureError
 from ecdsa.util import sigdecode_der
 import ecdsa
 from pycoin.ecdsa import generator_secp256k1, sign, verify
+from verify import opchecksig
 
 def hash160(pubkey):
     # Step 1: Perform SHA256 on the pubkey
@@ -39,7 +40,7 @@ def verify_s(pubKey, signature, msgHash):
     valid = verify(generator_secp256k1, (pubkey_int_x, pubkey_int_y), msgHash, signature)
     return valid
 
-file_path = "mempool/0a8b21af1cfcc26774df1f513a72cd362a14f5a598ec39d915323078efb5a240.json"
+file_path = "mempool/0a70cacb1ac276056e57ebfb0587d2091563e098c618eebf4ed205d123a3e8c4.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
@@ -157,11 +158,17 @@ def verify_signature(json_data):
         r_component_int = int.from_bytes(r_component, byteorder='big')
         s_component_int = int.from_bytes(s_component, byteorder='big')
         # ret = public_key.verify((r_component_int,s_component_int), hashed_message, sha256, sigdecode=sigdecode_der)
-        ret = verify_s(public_key, (r_component_int, s_component_int), hash_int)
+        # ret = verify_s(public_key, (r_component_int, s_component_int), hash_int) #This is the current working one
+        pubkey_dec = decompress_pubkey(public_key)
+        pubkey_int_x = int.from_bytes(pubkey_dec[0], byteorder='big')
+        pubkey_int_y = int.from_bytes(pubkey_dec[1], byteorder='big')
+        ret = opchecksig((pubkey_int_x, pubkey_int_y),(r_component_int, s_component_int), hash_int )
         # ret = verifyECDSAsecp256k1(hashed_message, public_key.hex(), (r_component.hex(), s_component.hex()))
+        # print("Answer", ret)
         if(ret == False):  
             return False
         # print("Answer: ", ret)
+        input["scriptsig"] = ""
         # print("Signature: ", signature.hex())
         # print("Signature R:", r_component_int)
         # print("Signature S:", s_component_int)
@@ -169,8 +176,10 @@ def verify_signature(json_data):
         # print("Message hash: ", hash_int)
         # print("Script signature: ", sigscript)
         # print("Serialised transaction: ", s_t)
+        
     return True
     # print("Is signature correct? ", verified)
+
 
 
 verify_signature(json_data)
