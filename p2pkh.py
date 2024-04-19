@@ -40,7 +40,7 @@ def verify_s(pubKey, signature, msgHash):
     valid = verify(generator_secp256k1, (pubkey_int_x, pubkey_int_y), msgHash, signature)
     return valid
 
-file_path = "mempool/0a70cacb1ac276056e57ebfb0587d2091563e098c618eebf4ed205d123a3e8c4.json"
+file_path = "mempool/0a8b21af1cfcc26774df1f513a72cd362a14f5a598ec39d915323078efb5a240.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
@@ -75,7 +75,7 @@ def dissect_signature(hex_sig):
     :return: r, s, t as a tuple.
     :rtype: tuple(str, str, str)
     """
-
+    # print("Hex sig : ", hex_sig)
     offset = 0
     # Check the sig contains at least the size and sequence marker
     assert len(hex_sig) > 4, "Wrong signature format."
@@ -173,7 +173,7 @@ def verify_signature(json_data):
         # print("Signature R:", r_component_int)
         # print("Signature S:", s_component_int)
         # print("Public Key:", public_key)
-        # print("Message hash: ", hash_int)
+        # print("Message hash: ", hashed_message.hex())
         # print("Script signature: ", sigscript)
         # print("Serialised transaction: ", s_t)
         

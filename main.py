@@ -3,6 +3,7 @@ import json
 from p2pkh import verify_signature
 from serialise import serialize_transaction
 import hashlib
+from p2wkh import verify_p2wpkh
 DIFFICULTY_TARGET = "0000ffff00000000000000000000000000000000000000000000000000000000"
 
 mempool_folder_path = './mempool'
@@ -16,6 +17,8 @@ def get_unique_scriptpubkey_types(directory):
     true_p2pkh = 0
     false_p2pkh = 0
     unique_types = set()
+    true_p2wpkh = 0
+    false_p2wpkh = 0
 
     with open("valid_transactions.txt", "a") as valid_transactions_file:
         count = 0
@@ -45,6 +48,19 @@ def get_unique_scriptpubkey_types(directory):
                         false_p2pkh+=1
                         print("error occured: ", e)
                         print("File name ", filename)
+                elif(data["vin"][0]["prevout"]["scriptpubkey_type"]=="v0_p2wpkh"):
+                    try:
+                        ans = verify_p2wpkh(data)
+                        if(ans==True):
+                            true_p2wpkh+=1
+                            valid_transactions_file.write(filename + "\n")
+                        else:
+                            false_p2wpkh+=1
+                    except Exception as e:
+                        false_p2wpkh+=1
+                        print("error occured: ", e)
+                        print("File name ", filename)
+
 
 
                 # Extract scriptpubkey_type values from vin array
@@ -59,6 +75,8 @@ def get_unique_scriptpubkey_types(directory):
 
     print("Correct: ", true_p2pkh)
     print("False: ", false_p2pkh)
+    print("Correct witness: ", true_p2wpkh)
+    print("False witness: ", false_p2wpkh)
     print("files: ", count)
     for i in unique_types:
         print("Lengths: ", i)
