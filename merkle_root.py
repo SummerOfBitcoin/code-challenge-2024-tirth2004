@@ -8,7 +8,7 @@ mempool_folder_path = './mempool'
 
 def calculate_txid_array():
     txids = []
-    coinbase_hex = "d292e11e85926b9c1556d8bc96d4d991142ab0b254f97af7c96dc07e03e0042b"
+    coinbase_hex = "52d9e7e8ff8044084991e99d1a88f19b3bf6ba94a32491edce70c0c723ed6795"
     coinbase_bytes = bytes.fromhex(coinbase_hex)
     txids.append(coinbase_bytes)
     with open("valid_transactions.txt", "r") as valid_transactions_file:
