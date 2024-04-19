@@ -101,7 +101,23 @@ def serialize_transaction_witness(json_obj):
         serialized_tx += encode(script_sig_size)
         serialized_tx+=output_tx["scriptpubkey"]
     
-    
+    temp = ""
+    for input_tx in json_obj["vin"]:
+        temp+="02"
+        signature = input_tx["witness"][0]
+        script_sig_size = len(signature)//2  # Divide by 2 to get bytes from hex string
+        # print(len(input_tx["scriptsig"])//2)
+        temp += encode(script_sig_size)
+        temp+=input_tx["witness"][0]
+        pubkey = input_tx["witness"][1]
+        pubkey_size = len(pubkey)//2  # Divide by 2 to get bytes from hex string
+        # print(len(input_tx["scriptsig"])//2)
+        temp += encode(pubkey_size)
+        temp+=input_tx["witness"][1]
+        
+    serialized_tx+=temp
+
+
     locktime = json_obj["locktime"]
     locktime_hex = format(locktime, '08x')  # Convert locktime to hexadecimal
     locktime_hex_le = ''.join(reversed([locktime_hex[i:i+2] for i in range(0, len(locktime_hex), 2)]))
@@ -133,7 +149,8 @@ with open(file_path, "r") as file:
 message_bytes = bytes.fromhex(serialize_transaction(json_data))
 hashed_message = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()[::-1]
 
-print("Hash: ", hashed_message.hex())
+# print("Hash: ", hashed_message.hex())
+# print(serialize_transaction_witness(json_data))
 
 # hex_string = "e624d51009596f6a296daf3090894d19d084add7c4ed83d48809d824bb5bf658"
 # reversed_hex_string = ''.join(reversed([hex_string[i:i+2] for i in range(0, len(hex_string), 2)]))
