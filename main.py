@@ -110,8 +110,9 @@ def make_block():
     calculate_txid()
 
                 
-verify_transactions(mempool_folder_path)
-make_block()
+if __name__ == "__main__":
+    verify_transactions(mempool_folder_path)
+    make_block()
 
 
 
