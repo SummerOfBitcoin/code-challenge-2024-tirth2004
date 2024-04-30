@@ -1,4 +1,3 @@
-# Update this file to run your own code
-pip install pylance
+pip install hashlib
 pip install ecdsa
-pip install pycoin==0.70
+python main.py

@@ -110,7 +110,7 @@ def make_block():
 
 
                 
-
+verify_transactions(mempool_folder_path)
 make_block()
 
 
