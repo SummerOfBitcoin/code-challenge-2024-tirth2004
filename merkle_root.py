@@ -5,6 +5,9 @@ import hashlib
 
 mempool_folder_path = './mempool'
 
+"""Calculates array of txids in natural byte ordering
+    Input: Serialised coinbase
+    Output: Array filled with txids"""
 
 def calculate_txid_array(coinbase):
     txids = []
@@ -27,6 +30,7 @@ def calculate_txid_array(coinbase):
     return txids
 
 
+"""Calculates merkle root"""
 
 def calc_merkle_root(coinbase):
     txids = calculate_txid_array(coinbase)

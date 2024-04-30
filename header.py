@@ -20,6 +20,8 @@ def make_header(coinbase):
     header+="FFFF001F"
     return header
 
+
+"""Selects value of nonce such that hash is less than difficulty target"""
 def make_hash(coinbase):
     while(True):
         header = make_header(coinbase)

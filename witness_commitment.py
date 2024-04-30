@@ -6,6 +6,7 @@ from serialise import serialize_transaction_witness
 mempool_folder_path = './mempool'
 
 
+"""Gives array of wtxids"""
 def calculate_wtxid_array():
     wtxids = []
     coinbase_hex = "0000000000000000000000000000000000000000000000000000000000000000"

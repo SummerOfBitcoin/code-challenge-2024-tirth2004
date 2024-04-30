@@ -9,13 +9,7 @@ def sha3_256Hash(msg):
     hashBytes = hashlib.sha3_256(msg.encode("utf8")).digest()
     return int.from_bytes(hashBytes, byteorder="big")
 
-def verifyECDSAsecp256k1(msg, signature, pubKey):
-    msgHash = sha3_256Hash(msg)
-    # print(msgHash)
-    valid = verify(generator_secp256k1, pubKey, msgHash, signature)
-    return valid
 
- 
 def inverse(a, m):
     m_orig = m
     if(a < 0):

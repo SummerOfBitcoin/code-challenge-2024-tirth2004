@@ -10,6 +10,8 @@ DIFFICULTY_TARGET = "0000ffff000000000000000000000000000000000000000000000000000
 
 mempool_folder_path = './mempool'
 
+"""Verifies p2pkh and p2wpkh transactions"""
+
 def verify_transactions(directory):
     true_p2pkh = 0
     false_p2pkh = 0
@@ -64,7 +66,7 @@ def verify_transactions(directory):
 
 # verify_transactions(mempool_folder_path)
 
-
+"""Inserts txids of the valid transctions in output.txt"""
 def calculate_txid():
     
     with open("valid_transactions.txt", "r") as valid_transactions_file:
@@ -85,12 +87,16 @@ def calculate_txid():
                     print(f"Error occurred while processing file '{filename}': {e}")
                 
                 
+"""Coinbase transaction:
+    I have used a sample coinbase from an actual block. Only change needed was 
+    witness commitment, which I have calculated seperately"""
 
 def make_coinbase():
     coinbase_start = "010000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff2503233708184d696e656420627920416e74506f6f6c373946205b8160a4256c0000946e0100ffffffff02f595814a000000001976a914edf10a7fac6b32e24daa5305c723f3de58db1bc888ac0000000000000000266a24aa21a9ed"
     coinbase_end = "0120000000000000000000000000000000000000000000000000000000000000000000000000"
     witness_comittment = calc_witness_commitment().hex()
     return (coinbase_start+witness_comittment+coinbase_end)
+
 
 def make_block():
     coinbase = make_coinbase()

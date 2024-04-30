@@ -1,9 +1,7 @@
 import json
-import hashlib
 
+"""Serialise transactions to get txids"""
 
-
-serialised_tx = ""
 def serialize_transaction(json_obj):
     version = json_obj["version"]
     version_hex = format(version, '08x')
@@ -55,6 +53,8 @@ def serialize_transaction(json_obj):
     locktime_hex_le = ''.join(reversed([locktime_hex[i:i+2] for i in range(0, len(locktime_hex), 2)]))
     serialized_tx += locktime_hex_le
     return serialized_tx
+
+"""Serialise transactions to get wtxids"""
 
 def serialize_transaction_witness(json_obj):
     version = json_obj["version"]
@@ -140,13 +140,13 @@ def encode(i):
 
 
 
-file_path = "mempool/0a8b21af1cfcc26774df1f513a72cd362a14f5a598ec39d915323078efb5a240.json"
+file_path = "mempool/0aac26114009989817ba396fbfcdb0ab2f2a51a30df5d134d3294aacb27e8f69.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
 
-# print("Serialized Transaction:", serialize_transaction(json_data))
-# message_bytes = bytes.fromhex(serialize_transaction(json_data))
+# print("Serialized Transaction:", serialize_transaction_witness(json_data))
+# message_bytes = bytes.fromhex(serialize_transaction_witness(json_data))
 # hashed_message = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()[::-1]
 
 # print("Hash: ", hashed_message.hex())

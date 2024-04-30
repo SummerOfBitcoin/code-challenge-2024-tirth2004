@@ -15,6 +15,8 @@ def hash160(pubkey):
     ripemd160_hash.update(sha256_hash)
     return ripemd160_hash.digest()
 
+"""Input: x only public key
+    Output: public key in co-ordinate form"""
 p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
 def decompress_pubkey(pk):
     x = int.from_bytes(pk[1:33], byteorder='big')
@@ -25,20 +27,13 @@ def decompress_pubkey(pk):
     y = y.to_bytes(32, byteorder='big')
     return  (pk[1:33], y)
 
-def verify_s(pubKey, signature, msgHash):
-
-    pubkey_dec = decompress_pubkey(pubKey)
-    pubkey_int_x = int.from_bytes(pubkey_dec[0], byteorder='big')
-    pubkey_int_y = int.from_bytes(pubkey_dec[1], byteorder='big')
-    # print("Decompressed public key: ",pubkey_int_y)
-    
-    valid = verify(generator_secp256k1, (pubkey_int_x, pubkey_int_y), msgHash, signature)
-    return valid
 
 file_path = "mempool/0a70cacb1ac276056e57ebfb0587d2091563e098c618eebf4ed205d123a3e8c4.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
+
+#Below two functions I have used from stack exchange
 def parse_element(hex_str, offset, element_size):
     """
     :param hex_str: string to parse the element from.
