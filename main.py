@@ -12,8 +12,7 @@ mempool_folder_path = './mempool'
 
 """Verifies p2pkh and p2wpkh transactions"""
 
-def verify_transactions():
-    directory = './mempool'
+def verify_transactions(directory):
     true_p2pkh = 0
     false_p2pkh = 0
     true_p2wpkh = 0
@@ -56,9 +55,7 @@ def verify_transactions():
                         false_p2wpkh+=1
                         # print("error occured: ", e)
                         # print("File name ", filename)
-            if(count>=2741): 
-                make_block()
-                return
+            if(count>=2741): return
     # print("Correct: ", true_p2pkh)
     # print("False: ", false_p2pkh)
     # print("Correct witness: ", true_p2wpkh)
@@ -113,9 +110,9 @@ def make_block():
     calculate_txid()
 
                 
-
-verify_transactions()
-    
+if __name__ == "__main__":
+    verify_transactions(mempool_folder_path)
+    make_block()
 
 
 

@@ -1,7 +1,7 @@
 # Summer of Bitcoin 2024
 
 > [!IMPORTANT]
-> My codes script do not work on grader, I have talked with Anmol regarding this. So I am commiting my output.txt. You can run the code locally, it takes around 12 mins on my system
+> My codes script do not work on grader, I have talked with Anmol regarding this. So I am commiting my output.txt. You can run the code locally by running the script(Currently it is commented, make sure to un-comment it), it takes around 8-12 mins on my system
 
 ## Synopsis
 
