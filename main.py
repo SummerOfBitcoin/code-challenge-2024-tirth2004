@@ -109,14 +109,6 @@ def make_block():
     
     calculate_txid()
 
-
-
-
-
-
-
-
-
                 
 verify_transactions(mempool_folder_path)
 make_block()
