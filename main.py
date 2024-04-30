@@ -12,7 +12,8 @@ mempool_folder_path = './mempool'
 
 """Verifies p2pkh and p2wpkh transactions"""
 
-def verify_transactions(directory):
+def verify_transactions():
+    directory = './mempool'
     true_p2pkh = 0
     false_p2pkh = 0
     true_p2wpkh = 0
@@ -113,7 +114,7 @@ def make_block():
 
                 
 
-verify_transactions(mempool_folder_path)
+verify_transactions()
     
 
 
