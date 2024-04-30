@@ -1,5 +1,8 @@
 # Summer of Bitcoin 2024
 
+> [!IMPORTANT]
+> My codes script do not work on grader, I have talked with Anmol regarding this. So I am commiting my output.txt. You can run the code locally, it takes around 12 mins on my system
+
 ## Synopsis
 
 Our assignment was to mine a block without using any external libraries. In the coming sections I will be sharing my approach on how I tackled the problem statement. I have used **NO "external" libraries**. I have only used libraries such as `hashlib` (for hashing functions), `os` and `json`. I implemented all elliptical calculations myself.
