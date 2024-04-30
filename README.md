@@ -7,7 +7,7 @@ Our assignment was to mine a block without using any external libraries. In the 
 ## Script
 
 ```
-python .\main.py
+python main.py
 
 ```
 
