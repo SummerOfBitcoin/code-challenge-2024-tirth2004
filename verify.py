@@ -1,4 +1,4 @@
-from pycoin.ecdsa import generator_secp256k1, verify
+
 import hashlib, secrets
 
 p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F

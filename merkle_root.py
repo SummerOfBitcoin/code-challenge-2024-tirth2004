@@ -6,10 +6,9 @@ import hashlib
 mempool_folder_path = './mempool'
 
 
-def calculate_txid_array():
+def calculate_txid_array(coinbase):
     txids = []
-    coinbase_hex = "52d9e7e8ff8044084991e99d1a88f19b3bf6ba94a32491edce70c0c723ed6795"
-    coinbase_bytes = bytes.fromhex(coinbase_hex)
+    coinbase_bytes = hashlib.sha256(hashlib.sha256(bytes.fromhex(coinbase)).digest()).digest()  
     txids.append(coinbase_bytes)
     with open("valid_transactions.txt", "r") as valid_transactions_file:
         for filename in valid_transactions_file:
@@ -29,8 +28,8 @@ def calculate_txid_array():
 
 
 
-def calc_merkle_root():
-    txids = calculate_txid_array()
+def calc_merkle_root(coinbase):
+    txids = calculate_txid_array(coinbase)
     
     while(len(txids)!=1):
         
@@ -52,7 +51,7 @@ def calc_merkle_root():
     # txids[0] = txids[0][::-1]
     return txids[0]
 
-print("Merkle root: ",calc_merkle_root().hex()+"0000000000000000000000000000000000000000000000000000000000000000" )
+# print("Merkle root: ",calc_merkle_root().hex()+"0000000000000000000000000000000000000000000000000000000000000000" )
 
 
 

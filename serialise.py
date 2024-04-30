@@ -140,14 +140,14 @@ def encode(i):
 
 
 
-file_path = "mempool/12e8b2619914eab19db3056ab65eb6f25656d2e607062efcf70c05df1a078eac.json"
+file_path = "mempool/0a8b21af1cfcc26774df1f513a72cd362a14f5a598ec39d915323078efb5a240.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
 
 # print("Serialized Transaction:", serialize_transaction(json_data))
-message_bytes = bytes.fromhex(serialize_transaction(json_data))
-hashed_message = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()[::-1]
+# message_bytes = bytes.fromhex(serialize_transaction(json_data))
+# hashed_message = hashlib.sha256(hashlib.sha256(message_bytes).digest()).digest()[::-1]
 
 # print("Hash: ", hashed_message.hex())
 # print(serialize_transaction_witness(json_data))

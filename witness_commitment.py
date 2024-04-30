@@ -35,7 +35,7 @@ def calculate_wtxid_array():
                 print(f"Error occurred while processing file '{filename}': {e}")
     return wtxids
 
-def calc_merkle_root():
+def calc_witness_commitment():
     txids = calculate_wtxid_array()
     
     while(len(txids)!=1):
@@ -59,9 +59,9 @@ def calc_merkle_root():
     ans = txids[0].hex() + "0000000000000000000000000000000000000000000000000000000000000000"
     ans_bytes = bytes.fromhex(ans)
     ans_hash = hashlib.sha256(hashlib.sha256(ans_bytes).digest()).digest()
-    return ans_hash.hex()
+    return ans_hash
 
 
 
-print("Witness commitment: ", calc_merkle_root())
+# print("Witness commitment: ", calc_merkle_root())
 

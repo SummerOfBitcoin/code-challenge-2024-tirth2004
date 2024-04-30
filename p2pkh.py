@@ -1,14 +1,9 @@
 import json
 import copy
 import hashlib, secrets
-from pycoin.ecdsa import generator_secp256k1, sign, verify
-import pycoin.ecdsa.secp256k1 as secp256k1
 from serialise import serialize_transaction
 from hashlib import sha256
-from ecdsa import BadSignatureError
-from ecdsa.util import sigdecode_der
-import ecdsa
-from pycoin.ecdsa import generator_secp256k1, sign, verify
+
 from verify import opchecksig
 
 def hash160(pubkey):
@@ -40,7 +35,7 @@ def verify_s(pubKey, signature, msgHash):
     valid = verify(generator_secp256k1, (pubkey_int_x, pubkey_int_y), msgHash, signature)
     return valid
 
-file_path = "mempool/0a8b21af1cfcc26774df1f513a72cd362a14f5a598ec39d915323078efb5a240.json"
+file_path = "mempool/0a70cacb1ac276056e57ebfb0587d2091563e098c618eebf4ed205d123a3e8c4.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
@@ -182,6 +177,6 @@ def verify_signature(json_data):
 
 
 
-verify_signature(json_data)
+# print(verify_signature(json_data))
 
 

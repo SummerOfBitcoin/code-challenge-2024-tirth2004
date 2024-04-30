@@ -4,7 +4,7 @@ from verify import opchecksig
 
 
 #Testing using this file
-file_path = "mempool/12e8b2619914eab19db3056ab65eb6f25656d2e607062efcf70c05df1a078eac.json"
+file_path = "mempool/0aac26114009989817ba396fbfcdb0ab2f2a51a30df5d134d3294aacb27e8f69.json"
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
@@ -199,5 +199,5 @@ def verify_p2wpkh(json_obj):
 
 
 
-# print("Verified?: ", verify_p2pkh(json_data))
+# print("Verified?: ", verify_p2wpkh(json_data))
 
