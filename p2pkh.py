@@ -39,14 +39,6 @@ file_path = "mempool/0a70cacb1ac276056e57ebfb0587d2091563e098c618eebf4ed205d123a
 with open(file_path, "r") as file:
     json_data = json.load(file)
 
-
-
-
-    
-
-
-
-
 def parse_element(hex_str, offset, element_size):
     """
     :param hex_str: string to parse the element from.

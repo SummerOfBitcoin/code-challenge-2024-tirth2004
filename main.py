@@ -18,7 +18,7 @@ def verify_transactions(directory):
     count = 0
     with open("valid_transactions.txt", "w") as valid_transactions_file:
         for filename in os.listdir(directory):
-            count+=1
+            
             if filename.endswith(".json"):
                 filepath = os.path.join(directory, filename)
 
@@ -31,6 +31,7 @@ def verify_transactions(directory):
                     try:
                         ans = verify_signature(data)
                         if(ans==True):
+                            count+=1
                             true_p2pkh+=1
                             valid_transactions_file.write(filename + "\n")   
                         else:
@@ -43,6 +44,7 @@ def verify_transactions(directory):
                     try:
                         ans = verify_p2wpkh(data)
                         if(ans==True):
+                            count+=1
                             true_p2wpkh+=1
                             valid_transactions_file.write(filename + "\n")
                         else:
@@ -51,7 +53,7 @@ def verify_transactions(directory):
                         false_p2wpkh+=1
                         # print("error occured: ", e)
                         # print("File name ", filename)
-        if(count>=2741): return
+            if(count>=2741): return
     # print("Correct: ", true_p2pkh)
     # print("False: ", false_p2pkh)
     # print("Correct witness: ", true_p2wpkh)

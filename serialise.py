@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-#Convert int into compact size
+
 
 serialised_tx = ""
 def serialize_transaction(json_obj):
